@@ -27,7 +27,7 @@ AutojoinRoomsMixin.setupOnClient(client);
 
 // We also want to make sure we can receive events - this is where we will
 // handle our command.
-client.on("room.message", handleCommand);
+client.on("room.message", ping);
 
 // Now that the client is all set up and the event handler is registered, start the
 // client up. This will start it syncing.
@@ -37,8 +37,8 @@ const breadQ = text =>
 	text.includes("we don't have any delivery slots available at this time");
 
 client.getJoinedRooms().then(rooms => {
+	let post = true;
 	setInterval(() => {
-		let post = true;
 		fetch(url)
 			.then(res => res.text())
 			.then(text => {
@@ -46,7 +46,7 @@ client.getJoinedRooms().then(rooms => {
 					rooms.forEach(roomId => {
 						client.sendMessage(roomId, {
 							msgtype: "m.notice",
-							body: `${new date().toGMTString()}
+							body: `${new Date().toGMTString()}
 							Check for flour at ${url}`
 						});
 					});
@@ -54,11 +54,11 @@ client.getJoinedRooms().then(rooms => {
 				if (breadQ(text)) post = true;
 			})
 			.catch(console.log);
-	}, 60000);
+	}, 45000);
 });
 
 // This is our event handler for dealing with the `!hello` command.
-async function handleCommand(roomId, event) {
+async function ping(roomId, event) {
 	// Don't handle events that don't have contents (they were probably redacted)
 	if (!event["content"]) return;
 
@@ -71,14 +71,14 @@ async function handleCommand(roomId, event) {
 
 	// Make sure that the event looks like a command we're expecting
 	const body = event["content"]["body"];
-	if (!body || !body.startsWith("!hello")) return;
+	if (!body || !body.startsWith("ping")) return;
 
 	// If we've reached this point, we can safely execute the command. We'll
 	// send a reply to the user's command saying "Hello World!".
 	// const replyBody = "Hello I'm still here!"; // we don't have any special styling to do.
 	// const reply = RichReply.createFor(roomId, event, replyBody, replyBody);
-	const reply = {};
-	reply["msgtype"] = "m.notice";
-	reply["body"] = "Hello I'm still here!";
-	client.sendMessage(roomId, reply);
+	client.sendMessage(roomId, {
+		msgtype: "m.notice",
+		body: new Date().toGMTString()
+	});
 }
