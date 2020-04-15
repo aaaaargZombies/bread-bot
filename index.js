@@ -71,7 +71,7 @@ async function ping(roomId, event) {
 
 	// Make sure that the event looks like a command we're expecting
 	const body = event["content"]["body"];
-	if (!body || !body.startsWith("ping")) return;
+	if (!body || !body.startsWith("Ping")) return;
 
 	// If we've reached this point, we can safely execute the command. We'll
 	// send a reply to the user's command saying "Hello World!".
