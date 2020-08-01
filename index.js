@@ -8,13 +8,11 @@ const {
 const fetch = require("node-fetch");
 const url = "https://www.shipton-mill.com/queue";
 
+// see https://t2bot.io/docs/access_tokens
 const { accessToken } = require("./secrets/accessToken.json");
 
 // where you would point a client to talk to a homeserver
 const homeserverUrl = "https://matrix.org";
-
-// see https://t2bot.io/docs/access_tokens
-// const accessToken = "YourSecretAccessToken";
 
 // We'll want to make sure the bot doesn't have to do an initial sync every
 // time it restarts, so we need to prepare a storage provider. Here we use
