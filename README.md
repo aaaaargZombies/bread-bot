@@ -1,3 +1,3 @@
-# OMNOMNOM I LIKE TO EAT BREAD
+# Bread Bot
 
-check urls for key phrases that show they aren't taking orders, if it isn't there prompt me to look at the website over riot.im.
+Bread Bot checks if a flour wholesaler is accepting orders and sends out alerts to phone/computer via [Matrix](https://matrix.org/).
